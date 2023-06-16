@@ -5,9 +5,87 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:local="clr-namespace:EmployeeAppWpf"
                  xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                 xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                  mc:Ignorable="d"
-                 Title="Employee Manager" Height="450" Width="800">
+                 WindowStartupLocation="CenterScreen"
+                 Title="Menager Pracowników" Height="450" Width="900" TitleAlignment="Center">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Button 
+                Command="{Binding AddEmployeeCommand}" 
+                Content="Dodaj" 
+                Height="25" 
+                Width="100" 
+                Margin="5"
+            />
+            <Button 
+                Command="{Binding EditEmployeeCommand}"
+                CommandParameter="{Binding SelectedEmployee}"
+                Content="Edytuj" 
+                Height="25" 
+                Width="100" 
+                Margin="5"
+            />
+            <Button 
+                Command="{Binding DeleteEmployeeCommand}" 
+                Content="Zwolnij" 
+                Height="25" 
+                Width="100" 
+                Margin="5"
+            />
+            <ComboBox 
+                Height="25" 
+                Width="150" 
+                Margin="5"
+                ItemsSource="{Binding IsWorking}"
+                SelectedValue="{Binding SelectedIsWorking}"
+                DisplayMemberPath="Name"
+                SelectedValuePath="Id"
+            />
+            <Button 
+                Command="{Binding RefreshEmployeesCommand}" 
+                Content="Odśwież" 
+                Height="25" 
+                Width="100" 
+                Margin="5"
+            />
+            <Button 
+                Command="{Binding PropertiesCommand}"
+                Content="Ustawienia" 
+                Height="25" 
+                Width="100" 
+                Margin="5"
+            />
+            <Button 
+                Command="{Binding AddUserCommand}"
+                Content="Dodaj Użytkownika" 
+                Height="25" 
+                Width="130" 
+                Margin="5"
+            />
+        </StackPanel>
+        <DataGrid 
+            ItemsSource="{Binding Employees}"
+            SelectedItem ="{Binding SelectedEmployee}"
+            Grid.Row="1" 
+            Margin="5"
+            CanUserAddRows="False"
+            IsReadOnly="True"
+            SelectionMode="Single"
+            AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Visibility="Hidden"/>
+                <DataGridTextColumn Binding="{Binding FirstName}" Header="Imię"/>
+                <DataGridTextColumn Binding="{Binding LastName}" Header="Nazwisko"/>
+                <DataGridTextColumn Binding="{Binding Description}" Header="Komentarz"/>
+                <DataGridTextColumn Binding="{Binding Salary}" Header="Pensja"/>
+                <DataGridTextColumn Binding="{Binding StartWorkingDate, StringFormat=\{0:dd.MM.yyyy\}}" Header="Data zatrudnienia"/>
+                <DataGridTextColumn Binding="{Binding EndWorkingDate, StringFormat=\{0:dd.MM.yyyy\}}" Header="Data zwolnienia"/>
+             </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </mah:MetroWindow>

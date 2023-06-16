@@ -1,4 +1,5 @@
-﻿using EmployeeAppWpf.View_Models;
+﻿using EmployeeAppWpf.Models.Wrappers;
+using EmployeeAppWpf.View_Models;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
@@ -12,20 +13,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EmployeeAppWpf
+namespace EmployeeAppWpf.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AddEditEmployeeView.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class AddEditEmployeeView : MetroWindow
     {
-        public MainWindow()
+        public AddEditEmployeeView(EmployeeWrapper employee = null)
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            DataContext = new AddEditEmployeeViewModel(employee);
         }
     }
 }

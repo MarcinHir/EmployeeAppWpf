@@ -1,5 +1,4 @@
-﻿using EmployeeAppWpf.View_Models;
-using MahApps.Metro.Controls;
+﻿using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,20 +11,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EmployeeAppWpf
+namespace EmployeeAppWpf.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for FireEmployeeView.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class FireEmployeeView : MetroWindow
     {
-        public MainWindow()
+        public FireEmployeeView()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
         }
     }
 }
