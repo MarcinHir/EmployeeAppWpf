@@ -20,7 +20,9 @@ namespace EmployeeAppWpf.Models.Converters
                 LastName = model.LastName,
                 Description = model.Description,
                 Salary = model.Salary,
-                StartWorkingDate = model.StartWorkingDate
+                StartWorkingDate = model.StartWorkingDate,
+                EndWorkingDate = model.EndWorkingDate,
+                FireOrNot = model.FireOrNot
             };
         }
 
@@ -34,11 +36,10 @@ namespace EmployeeAppWpf.Models.Converters
                 Description = model.Description,
                 Salary = model.Salary,
                 StartWorkingDate = model.StartWorkingDate,
-                EndWorkingDate = model.EndWorkingDate
+                EndWorkingDate = model.EndWorkingDate,
+                FireOrNot = model.FireOrNot
             };
         }
-
-        
     }
 }
 

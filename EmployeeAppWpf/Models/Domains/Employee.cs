@@ -15,6 +15,6 @@ namespace EmployeeAppWpf.Models.Domains
         public double Salary { get; set; }
         public DateTime StartWorkingDate { get; set; }
         public DateTime? EndWorkingDate { get; set;}
-        public int StatusId { get; set; }
+        public bool FireOrNot { get; set; }
     }
 }

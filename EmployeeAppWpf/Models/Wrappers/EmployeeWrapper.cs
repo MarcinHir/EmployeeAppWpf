@@ -17,6 +17,7 @@ namespace EmployeeAppWpf.Models.Wrappers
         public double Salary { get; set; }
         public DateTime StartWorkingDate { get; set; }
         public DateTime? EndWorkingDate { get; set; }
+        public bool FireOrNot { get; set; }
 
         private bool _isFirstNameValid;
         private bool _isLastNameValid;

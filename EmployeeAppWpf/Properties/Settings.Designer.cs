@@ -82,5 +82,17 @@ namespace EmployeeAppWpf.Properties {
                 this["Password"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Authorization {
+            get {
+                return ((bool)(this["Authorization"]));
+            }
+            set {
+                this["Authorization"] = value;
+            }
+        }
     }
 }

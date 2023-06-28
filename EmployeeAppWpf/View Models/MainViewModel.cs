@@ -13,6 +13,10 @@ using System.Text.RegularExpressions;
 using EmployeeAppWpf.Models.Wrappers;
 using EmployeeAppWpf.Models.Domains;
 using EmployeeAppWpf.Views;
+using EmployeeAppWpf.Models;
+using System.Windows.Controls;
+using System.Diagnostics.Contracts;
+using EmployeeAppWpf.Properties;
 
 namespace EmployeeAppWpf.View_Models
 {
@@ -20,17 +24,14 @@ namespace EmployeeAppWpf.View_Models
     {
         private Repository _repository = new Repository();
         public MainViewModel()
-        {
-            LoadedWindow(null);
+        {            
             RefreshEmployeeCommand = new RelayCommand(RefreshEmployee);
             AddEmployeeCommand = new RelayCommand(AddEditEmployee);
-            EditEmployeeCommand = new RelayCommand(AddEditEmployee, CanEditDeleteEmployee);
-            FireEmployeeCommand = new AsyncRelayCommand(FireEmployee, CanEditDeleteEmployee);
+            EditEmployeeCommand = new RelayCommand(AddEditEmployee, CanEditEmployee);
+            FireEmployeeCommand = new RelayCommand(FireEmployee, CanFireEmployee);
             PropertiesCommand = new RelayCommand(Properties);
             LoadedWindowCommand = new RelayCommand(LoadedWindow);
-
-
-
+            LoadedWindow(null);
         }
 
         public ICommand RefreshEmployeeCommand { get; set; }
@@ -39,10 +40,11 @@ namespace EmployeeAppWpf.View_Models
         public ICommand FireEmployeeCommand { get; set; }
         public ICommand PropertiesCommand { get; set; }
         public ICommand LoadedWindowCommand { get; set; }
+        public ICommand LoggingWindowCommand { get; set; }
 
         private EmployeeWrapper _selectedEmployee;
         private ObservableCollection<EmployeeWrapper> _employee;
-        private int _selectedGroupId;
+        private IsWorking _selectedIsWorking;
         private async void LoadedWindow(object obj)
         {
             if (!IfConnectionToDatabaseIsValid())
@@ -62,31 +64,42 @@ namespace EmployeeAppWpf.View_Models
             }
             else
             {
-                RefreshDiary();
-                //InitGroups();
+                if (Settings.Default.Authorization)
+                    RefreshDiary();
+                else
+                {
+                    var loginWindow = new LoginView();
+                    loginWindow.ShowDialog();
+                    if (Settings.Default.Authorization)
+                        RefreshDiary();
+                    else
+                        Application.Current.Shutdown();
+                }
+            }           
+        }
+        public IsWorking SelectedIsWorking
+        {
+            get { return _selectedIsWorking; }
+            set
+            {
+                _selectedIsWorking = value;
+                OnPropertyChanged();
             }
         }
-        //public int SelectedGroupId
-        //{
-        //    get { return _selectedGroupId; }
-        //    set
-        //    {
-        //        _selectedGroupId = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-        //public ObservableCollection<Group> Groups
-        //{
-        //    get { return _groups; }
-        //    set
-        //    {
-        //        _groups = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-
+        public IEnumerable<IsWorking> SelectedIsWorkingValues
+        {
+            get
+            {
+                return Enum.GetValues(typeof(IsWorking)).Cast<IsWorking>();
+            }
+        }
+        int SelectedWorking
+        {
+            get
+            {
+                return (int)SelectedIsWorking;
+            }
+        }
         public EmployeeWrapper SelectedEmployee
         {
             get { return _selectedEmployee; }
@@ -96,7 +109,6 @@ namespace EmployeeAppWpf.View_Models
                 OnPropertyChanged();
             }
         }
-
         public ObservableCollection<EmployeeWrapper> Employees
         {
             get { return _employee; }
@@ -106,74 +118,41 @@ namespace EmployeeAppWpf.View_Models
                 OnPropertyChanged();
             }
         }
-        public int SelectedGroupId
-        {
-            get { return _selectedGroupId; }
-            set
-            {
-                _selectedGroupId = value;
-                OnPropertyChanged();
-            }
-        }
-
-
         private void RefreshEmployee(object obj)
-        {
+        {            
             RefreshDiary();
         }
-
-        private bool CanRefreshEmployee(object obj)
-        {
-            return true;
-        }
-        //private void InitGroups()
-        //{
-        //    var groups = _repository.GetGroups();
-        //    groups.Insert(0, new Group { Id = 0, Name = "Wszystkie" });
-
-        //    Groups = new ObservableCollection<Group>(groups);
-
-        //    SelectedGroupId = 0;
-        //}
-        private bool CanEditDeleteEmployee(object obj)
+        private bool CanEditEmployee(object obj)
         {
             return SelectedEmployee != null;
         }
-
-        private async Task FireEmployee(object obj)
+        private bool CanFireEmployee(object obj)
         {
-            var metroWindow = Application.Current.MainWindow as MetroWindow;
-            var dialog = await metroWindow.ShowMessageAsync(
-                "Zwalnianie pracownika",
-                $"Czy na pewno chcesz zwolnić {SelectedEmployee.FirstName} " +
-                $"{SelectedEmployee.LastName}",
-                MessageDialogStyle.AffirmativeAndNegative);
-            ;
-            if (dialog != MessageDialogResult.Affirmative)
-                return;
 
-            _repository.FireEmployee(SelectedEmployee.Id);
-
-            RefreshDiary();
-
-
+            return SelectedEmployee != null;
+            
         }
-
+        private void FireEmployee(object obj)
+        {
+            var fireEmployeeWindow = new FireEmployeeView(obj as EmployeeWrapper);
+            fireEmployeeWindow.Closed += AddEditFireEmployee_WindowClosed;
+            fireEmployeeWindow.Show();
+        }
         private void AddEditEmployee(object obj)
         {
             var addEditStudentWindow = new AddEditEmployeeView(obj as EmployeeWrapper);
-            addEditStudentWindow.Closed += AddEditEmployee_WindowClosed;
+            addEditStudentWindow.Closed += AddEditFireEmployee_WindowClosed;
             addEditStudentWindow.Show();
         }
 
-        private void AddEditEmployee_WindowClosed(object sender, EventArgs e)
+        private void AddEditFireEmployee_WindowClosed(object sender, EventArgs e)
         {
             RefreshDiary();
         }
-
+            
         private void RefreshDiary()
-        {
-            Employees = new ObservableCollection<EmployeeWrapper>(_repository.GetEmployee(SelectedGroupId));
+        {             
+            Employees = new ObservableCollection<EmployeeWrapper>(_repository.GetEmployee(SelectedWorking));
         }
 
         private void Properties(object obj)
@@ -203,7 +182,6 @@ namespace EmployeeAppWpf.View_Models
             {
                 return false;
             }
-
         }
     }
 }

@@ -14,7 +14,10 @@ namespace EmployeeAppWpf.Models.Configurations
         {
             ToTable("dbo.Users");
             HasKey(x => x.Id);
-            Property(x => x.Name)
+            Property(x => x.UserLogin)
+                .IsRequired();
+                
+            Property(x => x.UserPassword)
                 .IsRequired();
         }
     }

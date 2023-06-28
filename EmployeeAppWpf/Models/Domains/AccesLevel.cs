@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace EmployeeAppWpf.Models.Domains
 {
-    public class Users
+    public class AccesLevel
     {
         public int Id { get; set; }
-        public string UserLogin { get; set; }
-        public string UserPassword { get; set; }
-        //public int AccesLevelId { get; set; }
+        public string Name { get; set; }
     }
 }

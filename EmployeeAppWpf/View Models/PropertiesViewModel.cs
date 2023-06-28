@@ -72,7 +72,7 @@ namespace EmployeeAppWpf.View_Models
         {
             _dbProperties.ServerAddress = "(local)";
             _dbProperties.ServerName = "SQLEXPRESS";
-            _dbProperties.DbName = "StudentsDiary";
+            _dbProperties.DbName = "EmployeeAppWpf";
             _dbProperties.Login = "Marcin";
             _dbProperties.Password = "123";
             OnPropertyChanged();

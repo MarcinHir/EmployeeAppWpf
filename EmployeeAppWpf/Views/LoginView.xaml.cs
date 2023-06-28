@@ -1,4 +1,4 @@
-﻿using EmployeeAppWpf.Models.Wrappers;
+﻿using EmployeeAppWpf.Properties;
 using EmployeeAppWpf.View_Models;
 using MahApps.Metro.Controls;
 using System;
@@ -18,14 +18,14 @@ using System.Windows.Shapes;
 namespace EmployeeAppWpf.Views
 {
     /// <summary>
-    /// Interaction logic for FireEmployeeView.xaml
+    /// Interaction logic for LoginView.xaml
     /// </summary>
-    public partial class FireEmployeeView : MetroWindow
+    public partial class LoginView : MetroWindow
     {
-        public FireEmployeeView(EmployeeWrapper employee)
+        public LoginView()
         {
             InitializeComponent();
-            DataContext = new FireEmployeeViewModel(employee);
+            DataContext = new LoginViewModel();
         }
     }
 }

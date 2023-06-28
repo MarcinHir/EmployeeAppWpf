@@ -1,7 +1,9 @@
-﻿using EmployeeAppWpf.View_Models;
+﻿using EmployeeAppWpf.Properties;
+using EmployeeAppWpf.View_Models;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +28,11 @@ namespace EmployeeAppWpf
         {
             InitializeComponent();
             DataContext = new MainViewModel();
+        }
+        private void MetroWindow_Closing(object sender, CancelEventArgs e)
+        {
+            Settings.Default.Authorization = false;
+            Settings.Default.Save();
         }
     }
 }

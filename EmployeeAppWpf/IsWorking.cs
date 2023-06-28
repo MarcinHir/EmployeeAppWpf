@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmployeeAppWpf.Models.Domains
+namespace EmployeeAppWpf
 {
-    public enum AccesLevel
+    public enum IsWorking
     {
-        Administrator = 1, Moderator, Użytkownik
+        Wszyscy = 1, Zatrudnieni, Zwolnieni
     }
 }

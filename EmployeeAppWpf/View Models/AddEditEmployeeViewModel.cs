@@ -29,12 +29,9 @@ namespace EmployeeAppWpf.View_Models
                 Employee = employee;
                 IsUpdate = true;
             }
-
         }
         private Repository _repository = new Repository();
-
         public ICommand CloseCommand { get; set; }
-
         public ICommand ConfirmCommand { get; set; }
 
         private EmployeeWrapper _employee;
@@ -47,9 +44,7 @@ namespace EmployeeAppWpf.View_Models
                 _employee = value;
                 OnPropertyChanged();
             }
-
         }
-
         private bool _isUpdate;
         public bool IsUpdate
         {
@@ -59,18 +54,15 @@ namespace EmployeeAppWpf.View_Models
                 _isUpdate = value;
                 OnPropertyChanged();
             }
-
         }
         private void Confirm(object obj)
         {
             if (!Employee.IsValid)
                 return;
-
             if (!IsUpdate)
                 AddEmployee();
             else
                 UpdateEmployee();
-
             CloseWindow(obj as Window);
         }
 
